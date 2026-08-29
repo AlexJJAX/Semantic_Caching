@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#132238">
+  <meta name="description" content="A live local workbench for Redis AI request patterns.">
+  <title>Redis AI Workbench</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to workbench</a>
+
+  <header class="site-header">
+    <a class="brand" href="/?demo=cache" aria-label="Redis AI Workbench home">
+      <span class="brand-mark" aria-hidden="true">R</span>
+      <span>
+        <strong>Redis AI</strong>
+        <small>Workbench / live Redis system</small>
+      </span>
+    </a>
+    <div class="system-status" aria-label="System status">
+      <span class="status-chip" id="redis-status"><span class="status-dot" aria-hidden="true"></span>Checking Redis</span>
+      <span class="status-chip" id="model-status"><span class="status-dot" aria-hidden="true"></span>Checking model</span>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="section-code">REDIS AI / LIVE SYSTEM</p>
+        <h1 id="page-title"><span class="redis-word">Redis</span> <br> Workbench DEMO</h1>
+        <p>Overview of Redis capabilities for AI applications, including: semantic caching, short-term memory (STM), long-term memory (LTM), RAG.</p>
+        <p class="hero-intro">Follow one prompt through Redis decisions lifecycle: retrieval boundaries, model calls, memory writes, and measured outcomes.</p>
+      </div>
+    </section>
+
+    <section class="demo-selector" aria-labelledby="demo-heading">
+      <div class="section-heading compact">
+        <div>
+          <p class="section-code">CHOOSE A PATTERN TO OBSERVE</p>
+          <h2 id="demo-heading">Four patterns. One workbench.</h2>
+        </div>
+        <p id="tab-description">Cache reuse with exact-first lookup and guarded semantic matching.</p>
+      </div>
+
+      <div class="tab-list" role="tablist" aria-label="Redis AI demonstrations">
+        <button id="tab-cache" class="tab" type="button" role="tab" aria-selected="true" aria-controls="panel-cache" tabindex="0" data-demo="cache">
+          <span>01</span>Semantic cache
+        </button>
+        <button id="tab-memory" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-memory" tabindex="-1" data-demo="memory">
+          <span>02</span>STM / LTM
+        </button>
+        <button id="tab-rbac" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-rbac" tabindex="-1" data-demo="rbac">
+          <span>03</span>RBAC RAG
+        </button>
+        <button id="tab-evaluation" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-evaluation" tabindex="-1" data-demo="evaluation">
+          <span>04</span>Retrieval evaluation
+        </button>
+      </div>
+
+      <div class="control-deck">
+        <section id="panel-cache" class="tab-panel" role="tabpanel" aria-labelledby="tab-cache">
+          <form class="demo-form" data-demo="cache">
+            <div class="control-copy">
+              <p class="control-index">01 — CACHE-ASIDE</p>
+              <h3>Exact first. Meaning second.</h3>
+              <p>Partitioned by tenant, task, model, prompt version, and permission scope. Try the same prompt twice, then a paraphrase.</p>
+            </div>
+            <div class="field-wide">
+              <label for="cache-prompt">Prompt</label>
+              <textarea id="cache-prompt" name="prompt" rows="3" maxlength="2000">How does Redis semantic caching reduce LLM latency?</textarea>
+              <div class="preset-row" aria-label="Cache prompt presets">
+                <button type="button" class="preset" data-target="cache-prompt" data-value="How does Redis semantic caching reduce LLM latency?">Base prompt</button>
+                <button type="button" class="preset" data-target="cache-prompt" data-value="Explain how a Redis meaning based cache lowers model response latency.">Paraphrase</button>
+                <button type="button" class="preset" data-target="cache-prompt" data-value="What is the live exchange rate today?">Volatile bypass</button>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="cache-scenario">Request path</label>
+                <select id="cache-scenario" name="scenario">
+                  <option value="auto">Automatic</option>
+                  <option value="cold">Cold miss</option>
+                  <option value="exact">Prime exact hit</option>
+                  <option value="semantic">Prime semantic hit</option>
+                  <option value="forced">Forced miss</option>
+                </select>
+              </div>
+              <button class="run-button" type="submit"><span>Run request</span><span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+        </section>
+
+        <section id="panel-memory" class="tab-panel" role="tabpanel" aria-labelledby="tab-memory" hidden>
+          <form class="demo-form" data-demo="memory">
+            <div class="control-copy">
+              <p class="control-index">02 — MEMORY</p>
+              <h3>Two horizons, explicit rules.</h3>
+              <p>Short-term conversation state expires. Long-term preferences retain their source and remain until deliberate deletion.</p>
+            </div>
+            <div class="field-wide">
+              <label for="memory-prompt">Message</label>
+              <textarea id="memory-prompt" name="prompt" rows="3" maxlength="2000">Remember that I prefer aisle seats for morning flights.</textarea>
+              <div class="preset-row" aria-label="Memory prompt presets">
+                <button type="button" class="preset" data-target="memory-prompt" data-value="Remember that I prefer aisle seats for morning flights.">Write preference</button>
+                <button type="button" class="preset" data-target="memory-prompt" data-value="Which seat and flight time do I prefer?">Recall preference</button>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="memory-thread">Thread identifier</label>
+                <input id="memory-thread" name="thread_id" value="review-session" maxlength="64" autocomplete="off">
+              </div>
+              <button class="run-button" type="submit"><span>Run turn</span><span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+        </section>
+
+        <section id="panel-rbac" class="tab-panel" role="tabpanel" aria-labelledby="tab-rbac" hidden>
+          <form class="demo-form" data-demo="rbac">
+            <div class="control-copy">
+              <p class="control-index">03 — AUTHORIZED RAG</p>
+              <h3>Filter before the model sees it.</h3>
+              <p>A Redis TAG filter narrows the vector search by role. Low-confidence or unauthorized evidence becomes a safe abstention.</p>
+            </div>
+            <div class="field-wide">
+              <label for="rbac-prompt">Question</label>
+              <textarea id="rbac-prompt" name="prompt" rows="3" maxlength="2000">Which quarterly reports can I export?</textarea>
+              <div class="preset-row" aria-label="RAG question presets">
+                <button type="button" class="preset" data-target="rbac-prompt" data-value="Which quarterly reports can I export?">Finance</button>
+                <button type="button" class="preset" data-target="rbac-prompt" data-value="What pipeline data can sales export?">Sales</button>
+                <button type="button" class="preset" data-target="rbac-prompt" data-value="Where is the employee leave policy?">People</button>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="rbac-role">Requester role</label>
+                <select id="rbac-role" name="role">
+                  <option value="finance">Finance</option>
+                  <option value="sales">Sales</option>
+                  <option value="people">People</option>
+                </select>
+              </div>
+              <button class="run-button" type="submit"><span>Run retrieval</span><span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+        </section>
+
+        <section id="panel-evaluation" class="tab-panel" role="tabpanel" aria-labelledby="tab-evaluation" hidden>
+          <form class="demo-form" data-demo="evaluation">
+            <div class="control-copy">
+              <p class="control-index">04 — EVALUATION</p>
+              <h3>Freeze evidence before judging.</h3>
+              <p>Run a fixed three-question set. Each configuration retrieves once; generation and scoring receive the identical documents.</p>
+            </div>
+            <div class="evaluation-manifest" aria-label="Evaluation manifest">
+              <span>DATASET <strong>workbench-rbac-v1</strong></span>
+              <span>CASES <strong>3</strong></span>
+              <span>METRICS <strong>hit rate · precision · p95</strong></span>
+              <input type="hidden" name="prompt" value="Run the fixed, sanitized retrieval evaluation set.">
+            </div>
+            <div class="field-row evaluation-action">
+              <p>Only aggregate metrics and configuration are persisted. Evaluation prompts and answers stay out of the inspector.</p>
+              <button class="run-button" type="submit"><span>Run evaluation</span><span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="recorder-section" aria-labelledby="recorder-heading">
+      <div class="recorder-topline">
+        <div>
+          <p class="section-code light">SIGNATURE VIEW / LIVE</p>
+          <h2 id="recorder-heading">How Each Request Is Processed</h2>
+        </div>
+        <p class="run-state" id="run-state" role="status" aria-live="polite"><span aria-hidden="true"></span>Ready for a request</p>
+      </div>
+
+      <ol class="flight-path" aria-label="Request lifecycle stages">
+        <li data-stage="prompt" data-status="idle">
+          <div class="flight-node"><span>01</span></div>
+          <div><strong>Prompt</strong><small>Waiting</small></div>
+        </li>
+        <li data-stage="cache" data-status="idle">
+          <div class="flight-node"><span>02</span></div>
+          <div><strong>Cache decision</strong><small>Waiting</small></div>
+        </li>
+        <li data-stage="retrieval" data-status="idle">
+          <div class="flight-node"><span>03</span></div>
+          <div><strong>Retrieval</strong><small>Waiting</small></div>
+        </li>
+        <li data-stage="model" data-status="idle">
+          <div class="flight-node"><span>04</span></div>
+          <div><strong>Model</strong><small>Waiting</small></div>
+        </li>
+        <li data-stage="memory" data-status="idle">
+          <div class="flight-node"><span>05</span></div>
+          <div><strong>STM / LTM write</strong><small>Waiting</small></div>
+        </li>
+        <li data-stage="metrics" data-status="idle">
+          <div class="flight-node"><span>06</span></div>
+          <div><strong>Metrics</strong><small>Waiting</small></div>
+        </li>
+      </ol>
+
+      <div class="trace-console">
+        <div class="trace-labels" aria-hidden="true"><span>SEQ</span><span>STAGE</span><span>OBSERVATION</span><span>TIME</span></div>
+        <div id="trace-log" class="trace-log" aria-live="polite" aria-relevant="additions">
+          <p class="trace-empty">Events will stream here as the request moves through the system.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="results" aria-labelledby="result-heading" hidden>
+      <div class="result-answer">
+        <p class="section-code" id="result-eyebrow">RUN RESULT</p>
+        <h2 id="result-heading">Result</h2>
+        <p id="result-answer"></p>
+        <div id="source-list" class="source-list" aria-label="Retrieved sources"></div>
+      </div>
+      <dl id="metric-grid" class="metric-grid"></dl>
+      <div class="evidence-grid">
+        <figure class="chart-card">
+          <figcaption id="chart-title">Measured comparison</figcaption>
+          <div id="chart" class="bar-chart"></div>
+          <p id="chart-note" class="chart-note"></p>
+        </figure>
+        <section class="comparison-card" aria-labelledby="comparison-title">
+          <div class="card-heading">
+            <h3 id="comparison-title">Before / after</h3>
+            <span>Sanitized run data</span>
+          </div>
+          <div class="table-scroll" tabindex="0">
+            <table id="comparison-table"></table>
+          </div>
+        </section>
+      </div>
+      <ul id="result-notes" class="result-notes"></ul>
+    </section>
+
+    <section class="redis-inspector" aria-labelledby="inspector-heading">
+      <div class="section-heading">
+        <div>
+          <p class="section-code">REDIS / OBSERVED STATE</p>
+          <h2 id="inspector-heading">Inspect Redis state without exposing stored values.</h2>
+        </div>
+        <div class="inspector-actions">
+          <button id="refresh-inspector" class="text-button" type="button">Refresh view</button>
+          <button id="open-reset" class="text-button danger" type="button">Reset workbench data</button>
+        </div>
+      </div>
+      <p class="privacy-note" id="privacy-note">Names, types, TTLs, and sizes only; values are never exposed.</p>
+      <div class="inspector-grid">
+        <section aria-labelledby="keys-heading">
+          <div class="inspector-title"><h3 id="keys-heading">Key space</h3><span id="key-count">0 keys</span></div>
+          <div class="table-scroll inspector-scroll" tabindex="0">
+            <table>
+              <thead><tr><th scope="col">Key</th><th scope="col">Type</th><th scope="col">TTL</th><th scope="col">Bytes</th></tr></thead>
+              <tbody id="key-table"><tr><td colspan="4">Run a demo to create scoped keys.</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+        <section aria-labelledby="indexes-heading">
+          <div class="inspector-title"><h3 id="indexes-heading">Search indexes</h3><span id="index-count">0 indexes</span></div>
+          <div id="index-list" class="index-list"><p>Checking Redis Search…</p></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Redis AI Workbench</span>
+    <p id="backend-summary">Real Redis · checking model backend</p>
+    <span>Live system</span>
+  </footer>
+
+  <dialog id="reset-dialog" aria-labelledby="reset-title">
+    <form method="dialog">
+      <p class="control-index">SCOPED DELETION</p>
+      <h2 id="reset-title">Reset workbench data?</h2>
+      <p>This deletes only workbench-owned cache, memory, evaluation, and RBAC data. All unrelated Redis data is preserved.</p>
+      <div class="dialog-actions">
+        <button class="text-button" value="cancel">Keep data</button>
+        <button id="confirm-reset" class="run-button danger-fill" value="confirm">Reset scoped data</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

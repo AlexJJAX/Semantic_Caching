@@ -1,0 +1,31 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.ruff_cache/
+.uv-cache/
+
+# Virtual environments
+.venv/
+
+# Local configuration and secrets
+.env
+
+# Redis runtime data
+.redis-data/
+*.rdb
+appendonlydir/
+
+# Local API job state and generated metrics
+evaluation/.batch_state*.json
+resources/metrics_*.csv
+
+# Local browser-test artifacts
+output/playwright/
+.playwright-cli/
+
+# Operating-system files
+.DS_Store

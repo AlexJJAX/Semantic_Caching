@@ -1,0 +1,65 @@
+{
+  "description": "Task-specific support FAQ pairs for semantic-cache threshold calibration.",
+  "pairs": [
+    {
+      "name": "password reset paraphrase",
+      "query": "How do I reset my account password?",
+      "candidate": "I forgot my password. How can I recover access?",
+      "should_hit": true
+    },
+    {
+      "name": "invoice download paraphrase",
+      "query": "Where can I download my 2025 invoice?",
+      "candidate": "How do I get a copy of the invoice for 2025?",
+      "should_hit": true
+    },
+    {
+      "name": "opening hours paraphrase",
+      "query": "When is customer support open?",
+      "candidate": "What are the customer service opening hours?",
+      "should_hit": true
+    },
+    {
+      "name": "shipping address paraphrase",
+      "query": "Where is the shipping-address documentation?",
+      "candidate": "Which help article explains delivery-address settings?",
+      "should_hit": true
+    },
+    {
+      "name": "different invoice year",
+      "query": "Where can I download my 2025 invoice?",
+      "candidate": "Where can I download my 2024 invoice?",
+      "should_hit": false
+    },
+    {
+      "name": "opposite access policy",
+      "query": "Can administrators export audit logs?",
+      "candidate": "Can non-administrators export audit logs?",
+      "should_hit": false
+    },
+    {
+      "name": "billing versus shipping address",
+      "query": "Where is the billing-address documentation?",
+      "candidate": "Where is the shipping-address documentation?",
+      "should_hit": false
+    },
+    {
+      "name": "refund versus status",
+      "query": "Where can I check my refund status?",
+      "candidate": "How can I request a refund?",
+      "should_hit": false
+    },
+    {
+      "name": "create versus close account",
+      "query": "How do I create a team account?",
+      "candidate": "How do I close a team account?",
+      "should_hit": false
+    },
+    {
+      "name": "plan limits paraphrase",
+      "query": "How many users are included in the business plan?",
+      "candidate": "What is the business plan's user limit?",
+      "should_hit": true
+    }
+  ]
+}
